@@ -1,0 +1,32 @@
+name: Run Telegram Fetch
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  
+  workflow_dispatch:     
+
+jobs:
+  fetch_and_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        pip install telethon huggingface_hub pandas kaalin
+
+    - name: Run Telegram script
+      env:
+        TG_PHONE: ${{ secrets.TG_PHONE }}
+        TG_API_ID: ${{ secrets.TG_API_ID }}
+        TG_API_HASH: ${{ secrets.TG_API_HASH }}
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: |
+        python kaa_sentences.py
