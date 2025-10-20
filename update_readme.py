@@ -10,12 +10,22 @@ STATS_FILE = "dataset_stats.json"
 def get_hf_stats(token):
     api = HfApi()
     info = api.dataset_info(HF_DATASET, token=token)
+
+    # Try to read number of examples (if provided in the card)
     num_sentences = info.cardData.get("num_examples") if info.cardData else None
-    size_bytes = info.size or 0
+
+    # 'size' attribute no longer exists — sum over files if possible
+    total_bytes = 0
+    if hasattr(info, "siblings"):
+        for f in info.siblings:
+            if hasattr(f, "size") and f.size:
+                total_bytes += f.size
+
+    # Return dictionary of stats
     return {
         "sentence_count": int(num_sentences or 0),
         "token_count": int((num_sentences or 0) * 10),  # rough estimate
-        "size_bytes": int(size_bytes),
+        "size_bytes": int(total_bytes),
     }
 
 
