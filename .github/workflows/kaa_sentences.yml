@@ -2,7 +2,7 @@ name: Run Telegram Fetch
 
 on:
   schedule:
-    - cron: '0 2 * * *'  
+    - cron: '0 1 * * *'  
   workflow_dispatch:     
 
 jobs:
@@ -30,3 +30,4 @@ jobs:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
         python kaa_sentences.py
+
