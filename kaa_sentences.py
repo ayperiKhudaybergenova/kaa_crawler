@@ -4,14 +4,14 @@ from telethon.sessions import StringSession
 from huggingface_hub import HfApi
 from kaalin.converter import cyrillic2latin
 
-# Environment variables from GitHub Secrets
+
 api_id = int(os.environ.get("TG_API_ID"))
 api_hash = os.environ.get("TG_API_HASH")
 phone = os.environ.get("TG_PHONE")
 hf_token = os.environ.get("HF_TOKEN")
 repo_id = "Ayperi/kaa_sentences"
 
-# Local files
+
 SESSION_FILE = "telegram_session.txt"
 LAST_ID_FILE = "last_message_id.json"
 
